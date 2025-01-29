@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Document</title>
+</head>
+<body>
+    <table align="center">
+        <tr>
+            <td align="center">
+                <button id="getProducts" style="padding: 10px 20px;">Get Products</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <textarea id="writeProducts" cols="100" rows="50" readonly style="resize: none;"></textarea>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        const btnGetProducts = document.getElementById("getProducts");
+        const txtWriteProducts = document.getElementById("writeProducts");
+
+        btnGetProducts.addEventListener("click", async () => {
+            try {
+                const response = await fetch("http://127.0.0.1:3000/api/products");
+            
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const products = await response.json();
+
+                txtWriteProducts.textContent = JSON.stringify(products, null, 2);
+            } catch (error) {
+                console.error('Fetch error:', error);
+                txtWriteProducts.textContent = 'Error fetching products';
+            }
+        });
+    </script>
+</body>
+</html>
